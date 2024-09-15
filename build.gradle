@@ -1,0 +1,199 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '1.0.17'
+    id "me.modmuss50.mod-publish-plugin" version "0.7.1"
+}
+
+apply from: 'https://raw.githubusercontent.com/FTBTeam/mods-meta/main/gradle/publishing.gradle'
+
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
+}
+
+version = mod_version
+group = mod_group_id
+
+repositories {
+    mavenLocal()
+}
+
+base {
+    archivesName = mod_id
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = project.neo_version
+
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
+
+    // This line is optional. Access Transformers are automatically detected
+    // accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            client()
+
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+
+            // Add --width and --height to the client run configuration
+            programArgument '--width=1920'
+            programArgument '--height=1080'
+        }
+
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        gameTestServer {
+            type = "gameTestServer"
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        data {
+            data()
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+dependencies {
+    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+
+    def extendedAEAtRuntime = true
+    def advancedAEAtRuntime = true
+
+    compileOnly("curse.maven:applied-energistics-2-223794:5662490")
+    compileOnly("curse.maven:glodium-957920:5614731")
+    compileOnly("curse.maven:extendedae-892005:5680210")
+
+    if (extendedAEAtRuntime) localRuntime("curse.maven:extendedae-892005:5680210")
+
+    compileOnly("curse.maven:advancedae-1084104:5715851")
+    if (advancedAEAtRuntime) localRuntime("curse.maven:advancedae-1084104:5715851")
+
+    if (extendedAEAtRuntime || advancedAEAtRuntime) runtimeOnly("curse.maven:applied-energistics-2-223794:5662490")
+    if (extendedAEAtRuntime || advancedAEAtRuntime) runtimeOnly("curse.maven:glodium-957920:5614731")
+}
+
+repositories {
+    mavenLocal()
+    maven { url "https://modmaven.dev" }
+    maven { url "https://cursemaven.com" }
+}
+
+// This block of code expands all declared replace properties in the specified resource targets.
+// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
+}
+// Include the output of "generateModMetadata" as an input directory for the build
+// this works with both building through Gradle and the IDE.
+sourceSets.main.resources.srcDir generateModMetadata
+// To avoid having to run "generateModMetadata" manually, make it run on every project reload
+neoForge.ideSyncTask generateModMetadata
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        if (providers.environmentVariable("FTB_MAVEN_TOKEN").isPresent()) {
+            maven {
+                url ftbPublishing.ftbURL
+                credentials {
+                    username = "ftb"
+                    password = providers.environmentVariable("FTB_MAVEN_TOKEN").getOrElse("")
+                }
+            }
+        }
+
+        if (providers.environmentVariable("SAPS_TOKEN").isPresent()) {
+            maven {
+                url ftbPublishing.sapsURL
+                credentials {
+                    username = "ftb"
+                    password = providers.environmentVariable("SAPS_TOKEN").getOrElse("")
+                }
+            }
+        }
+    }
+}
+
+publishMods {
+    dryRun = providers.environmentVariable("CURSEFORGE_KEY").getOrNull() == null
+    changelog = file("CHANGELOG.md").text
+
+    def tag = providers.environmentVariable("TAG").getOrElse("release")
+    type = (!tag.contains("beta") && !tag.contains("alpha")) ? STABLE : (tag.contains("beta") ? BETA : ALPHA)
+    file = jar.archiveFile
+    displayName = "[NEOFORGE][${minecraft_version}] FTB JEI Extras ${mod_version}"
+
+    curseforge {
+        modLoaders.add("neoforge")
+
+        accessToken = providers.environmentVariable("CURSEFORGE_KEY")
+        minecraftVersions.add("${minecraft_version}")
+        projectId = curseforge_id
+
+        requires { slug = "architectury-api" }
+        requires { slug = 'ftb-library-forge' }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
