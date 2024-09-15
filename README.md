@@ -9,7 +9,7 @@ These features are correct as of `1.21.1`, these features may change as mods cha
 - [`ExtendedAE`](https://www.curseforge.com/minecraft/mc-mods/ex-pattern-provider) - Adds JEI support for ExtendedAE, ExtendedAE currently only supports `EMI` and `REI`
 - [`AdvancedAE`](https://www.curseforge.com/minecraft/mc-mods/advancedae) - Adds JEI support for AdvancedAE, AdvancedAE currently only supports `EMI` and `REI`
 
-The mod will work workout any of these supported mods being installed as each plugin is registered conditionally =
+The mod will work workout any of these supported mods being installed as each plugin is registered conditionally
 
 ## Issues
 
