@@ -182,8 +182,9 @@ publishMods {
         minecraftVersions.add("${minecraft_version}")
         projectId = curseforge_id
 
-        requires { slug = "architectury-api" }
-        requires { slug = 'ftb-library-forge' }
+        requires('ftb-library-forge')
+        optional("ex-pattern-provider") // ExtendedAE
+        optional("advancedae") // advancedae
     }
 }
 
