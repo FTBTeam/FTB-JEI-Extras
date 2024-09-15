@@ -5,7 +5,6 @@ plugins {
     id "me.modmuss50.mod-publish-plugin" version "0.7.1"
 }
 
-apply from: 'https://raw.githubusercontent.com/FTBTeam/mods-meta/main/gradle/publishing.gradle'
 
 tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
@@ -13,6 +12,8 @@ tasks.named('wrapper', Wrapper).configure {
 
 version = mod_version
 group = mod_group_id
+
+apply from: 'https://raw.githubusercontent.com/FTBTeam/mods-meta/main/gradle/publishing.gradle'
 
 repositories {
     mavenLocal()
@@ -139,7 +140,7 @@ neoForge.ideSyncTask generateModMetadata
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
-            from components.java
+            version = ftbPublishing.mavenVersion
         }
     }
 
