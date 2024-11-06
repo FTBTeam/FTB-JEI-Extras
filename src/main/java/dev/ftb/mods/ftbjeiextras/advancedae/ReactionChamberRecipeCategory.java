@@ -1,6 +1,7 @@
 package dev.ftb.mods.ftbjeiextras.advancedae;
 
 import appeng.core.AppEng;
+import dev.ftb.mods.ftbjeiextras.FTBJeiExtras;
 import dev.ftb.mods.ftbjeiextras.modspecific.GlodiumHelpers;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -28,13 +29,12 @@ import org.jetbrains.annotations.Nullable;
 public class ReactionChamberRecipeCategory implements IRecipeCategory<ReactionChamberRecipe> {
     public static final RecipeType<ReactionChamberRecipe> TYPE = RecipeType.create("advanced_ae", "reaction", ReactionChamberRecipe.class);
 
-    private static final ResourceLocation BG_ASSET = AppEng.makeId("textures/guis/reaction_chamber.png");
+    private static final ResourceLocation BG_ASSET = FTBJeiExtras.id("textures/guis/reaction_chamber.png");
     private static final ResourceLocation BOLT_ASSET = AdvancedAE.makeId("textures/guis/emi.png"); // Bad name
 
     private final IDrawableStatic background;
     private final IDrawable icon;
     private final IDrawableAnimated charge;
-    private final IDrawableStatic boltIcon;
 
     private final IGuiHelper guiHelper;
 
@@ -43,7 +43,6 @@ public class ReactionChamberRecipeCategory implements IRecipeCategory<ReactionCh
         background = guiHelper.createDrawable(BG_ASSET, 20, 22, 135, 58);
         icon = guiHelper.createDrawableItemStack(new ItemStack(AAEBlocks.REACTION_CHAMBER));
         charge = guiHelper.createAnimatedDrawable(guiHelper.createDrawable(BG_ASSET, 176, 0, 6, 18), 40, IDrawableAnimated.StartDirection.BOTTOM, false);
-        boltIcon = guiHelper.createDrawable(BOLT_ASSET, 0, 0, 16, 16);
     }
 
     @Override

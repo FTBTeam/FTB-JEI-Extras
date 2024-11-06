@@ -18,3 +18,7 @@ Please report any issues to our [issue tracker](https://go.ftb.team/support-mod-
 ## Requests
 
 If you have any extra mods you'd like this mod to support, please create an issue on our [issue tracker](https://go.ftb.team/support-mod-issues) and we'll take a look.
+
+## License Exceptions
+
+[reaction_chamber.png](./src/main/resources/assets/ftbjeiextras/guis/reaction_chamber.png) is subject to https://github.com/pedroksl/AdvancedAE license. Please see their license for more information.

@@ -97,11 +97,12 @@ dependencies {
 
     if (extendedAEAtRuntime) localRuntime("curse.maven:extendedae-892005:5680210")
 
-    compileOnly("curse.maven:advancedae-1084104:5715851")
-    if (advancedAEAtRuntime) localRuntime("curse.maven:advancedae-1084104:5715851")
+    compileOnly("curse.maven:advancedae-1084104:5876076")
+    if (advancedAEAtRuntime) localRuntime("curse.maven:advancedae-1084104:5876076")
 
     if (extendedAEAtRuntime || advancedAEAtRuntime) runtimeOnly("curse.maven:applied-energistics-2-223794:5662490")
     if (extendedAEAtRuntime || advancedAEAtRuntime) runtimeOnly("curse.maven:glodium-957920:5614731")
+    if (extendedAEAtRuntime || advancedAEAtRuntime) runtimeOnly("curse.maven:geckolib-388172:5874016")
 }
 
 repositories {
