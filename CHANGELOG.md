@@ -1,3 +1,3 @@
-## Changed
+## Added
 
-- Temp fix for the wrong texture with Advanced AE
+- The mods features :D
