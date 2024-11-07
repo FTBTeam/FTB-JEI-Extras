@@ -1,3 +1,4 @@
-## Changed
+## Added
 
-- Temp fix for the wrong texture with Advanced AE
+- Reaction chamber recipe gui fixed
+- The mods features :D
