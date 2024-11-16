@@ -1,3 +1,3 @@
-## Added
+## Fixed
 
-- Reaction chamber recipe gui fixed
+- Minor issue with stack copying
