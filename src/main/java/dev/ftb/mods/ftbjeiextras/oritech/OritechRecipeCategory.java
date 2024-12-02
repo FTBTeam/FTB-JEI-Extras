@@ -4,9 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.architectury.fluid.FluidStack;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.drawable.IDrawableAnimated;
-import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.placement.HorizontalAlignment;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -43,9 +43,6 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
 
     public static final ResourceLocation GUI_COMPONENTS = BasicMachineScreen.GUI_COMPONENTS;
 
-    // Todo don't depend on JEI
-    private static final ResourceLocation jei = ResourceLocation.fromNamespaceAndPath("jei", "textures/jei/gui/gui_vanilla.png");
-
     private final int offsetX = 23;
     private final int offsetY = 17;
 
@@ -54,7 +51,6 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
     private final IDrawable icon;
     private final IDrawable background;
     private final IGuiHelper guiHelper;
-    private final IDrawableStatic staticFlame;
     private final Component title;
 
     private final List<ScreenProvider.GuiSlot> slots;
@@ -66,7 +62,6 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
         this.recipeType = recipeType;
         this.background = guiHelper.createBlankDrawable(150, 66);
         this.icon = guiHelper.createDrawableItemStack(new ItemStack(machine));
-        this.staticFlame = guiHelper.createDrawable(jei, 82, 114, 14, 14);
         this.title = Component.translatable("emi.category.oritech." + recipeType.getUid().getPath());
 
         var blockState = Blocks.STONE.defaultBlockState();
@@ -128,25 +123,37 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
             var pos = slots.get(slotOffsets.outputStart() + i);
             builder.addSlot(RecipeIngredientRole.OUTPUT, pos.x() - offsetX, pos.y() - offsetY)
                     .addItemStack(output);
+
         }
+
+    }
+
+    @Override
+    public void createRecipeExtras(IRecipeExtrasBuilder builder, RecipeHolder<OritechRecipe> recipeHolder, IFocusGroup focuses) {
+        OritechRecipe recipe = recipeHolder.value();
+
+        boolean isGenerating = screenProvider instanceof UpgradableGeneratorBlockEntity;
+
+        if (isGenerating) {
+            builder.addAnimatedRecipeFlame(recipe.getTime())
+                    .setPosition(76 - offsetX, 41 - offsetY);
+        } else  {
+            builder.addAnimatedRecipeArrow(recipe.getTime())
+                    .setPosition(80 - offsetX, 41 - offsetY);
+        }
+
+        var duration = String.format("%.0f", recipe.getTime() / 20f);
+        builder.addText(Component.translatable("emi.title.oritech.cookingtime", duration, recipe.getTime()), getWidth(), getHeight())
+                .setShadow(true)
+                .setTextAlignment(HorizontalAlignment.CENTER)
+                .setColor(0xFFFFFF)
+                .setPosition(0, getHeight() - Minecraft.getInstance().font.lineHeight);
 
     }
 
     @Override
     public void draw(RecipeHolder<OritechRecipe> recipeHolder, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         OritechRecipe recipe = recipeHolder.value();
-
-        boolean isGenerating = screenProvider instanceof UpgradableGeneratorBlockEntity;
-
-
-        // Todo how to make an animated flame / arrow?
-        if (isGenerating) {
-            staticFlame.draw(guiGraphics, 76 - offsetX, 41 - offsetY);
-        } else  {
-            guiHelper.drawableBuilder(jei, 82, 128, 24, 17)
-                    .build()
-                    .draw(guiGraphics, 80 - offsetX, 41 - offsetY);
-        }
 
         List<Ingredient> inputs = recipe.getInputs();
         for (int i = 0; i < inputs.size(); i++) {
@@ -178,9 +185,6 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
             guiHelper.getSlotDrawable()
                     .draw(guiGraphics, pos.x() - offsetX - 1, pos.y() - offsetY - 1);
         }
-
-        var duration = String.format("%.0f", recipe.getTime() / 20f);
-        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("emi.title.oritech.cookingtime", duration, recipe.getTime()), (int) (150 * 0.35), (int) (66 * 0.88), 0xFFFFFF, true);
     }
 
     // Todo improve this try to use addInput then setFluidRender - but that seems to render fluid on top of the drawMethod

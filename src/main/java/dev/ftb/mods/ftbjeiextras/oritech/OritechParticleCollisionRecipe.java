@@ -3,6 +3,8 @@ package dev.ftb.mods.ftbjeiextras.oritech;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.placement.HorizontalAlignment;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -73,10 +75,21 @@ public class OritechParticleCollisionRecipe implements IRecipeCategory<RecipeHol
     }
 
     @Override
-    public void draw(RecipeHolder<OritechRecipe> recipeHolder, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void createRecipeExtras(IRecipeExtrasBuilder builder, RecipeHolder<OritechRecipe> recipeHolder, IFocusGroup focuses) {
         OritechRecipe recipe = recipeHolder.value();
 
+        builder.addText(Component.translatable("emi.title.oritech.collisionspeed", recipe.getTime()), getWidth(), getHeight())
+                .setShadow(true)
+                .setTextAlignment(HorizontalAlignment.CENTER)
+                .setColor(0xFFFFFF)
+                .setPosition(0, getHeight() - Minecraft.getInstance().font.lineHeight);
+    }
+
+    @Override
+    public void draw(RecipeHolder<OritechRecipe> recipeHolder, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+
         // Todo this is not working  https://github.com/Rearth/Oritech/blob/f8062dc79fb1e8a13126fd48f40989d6f89e66ef/common/src/main/java/rearth/oritech/init/compat/emi/OritechEMIParticleCollisionRecipe.java#L31
+
         guiHelper.createDrawable(PARTICLE, 0, 0, 36, 24)
                 .draw(guiGraphics, 60, 17);
 
@@ -86,7 +99,5 @@ public class OritechParticleCollisionRecipe implements IRecipeCategory<RecipeHol
         guiHelper.getSlotDrawable()
                 .draw(guiGraphics, 95, 19);
 
-        String string = Component.translatable("emi.title.oritech.collisionspeed", recipe.getTime()).getString();
-        guiGraphics.drawString(Minecraft.getInstance().font, string, 0, (int) (66 * 0.88), 0xFFFFFF, true);
     }
 }
