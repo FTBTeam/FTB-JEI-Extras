@@ -43,8 +43,8 @@ neoForge {
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
 
             // Add --width and --height to the client run configuration
-            programArgument '--width=1920'
-            programArgument '--height=1080'
+//            programArgument '--width=1920'
+//            programArgument '--height=1080'
         }
 
         server {
@@ -90,10 +90,12 @@ dependencies {
 
     def extendedAEAtRuntime = true
     def advancedAEAtRuntime = true
+    def oritechAtRuntime = true
 
     compileOnly("curse.maven:applied-energistics-2-223794:5662490")
     compileOnly("curse.maven:glodium-957920:5614731")
     compileOnly("curse.maven:extendedae-892005:5680210")
+    compileOnly("curse.maven:oritech-1030830:5952879")
 
     if (extendedAEAtRuntime) localRuntime("curse.maven:extendedae-892005:5680210")
 
@@ -103,12 +105,21 @@ dependencies {
     if (extendedAEAtRuntime || advancedAEAtRuntime) runtimeOnly("curse.maven:applied-energistics-2-223794:5662490")
     if (extendedAEAtRuntime || advancedAEAtRuntime) runtimeOnly("curse.maven:glodium-957920:5614731")
     if (extendedAEAtRuntime || advancedAEAtRuntime) runtimeOnly("curse.maven:geckolib-388172:5874016")
+
+    implementation("curse.maven:oritech-1030830:5952879")
+    implementation("curse.maven:owo-lib-532610:5945693")
+    implementation("curse.maven:geckolib-388172:5874016")
+    implementation "curse.maven:athena-841890:5629395"
+    implementation "org.sinytra.forgified-fabric-api:forgified-fabric-api:0.104.0+2.0.19+1.21.1"
+    implementation "curse.maven:architectury-api-419699:5786327"
+
 }
 
 repositories {
     mavenLocal()
     maven { url "https://modmaven.dev" }
     maven { url "https://cursemaven.com" }
+    maven { url "https://maven.su5ed.dev/releases" }
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
