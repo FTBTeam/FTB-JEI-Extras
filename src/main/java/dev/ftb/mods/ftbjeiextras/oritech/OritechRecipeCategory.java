@@ -183,7 +183,7 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
         guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("emi.title.oritech.cookingtime", duration, recipe.getTime()), (int) (150 * 0.35), (int) (66 * 0.88), 0xFFFFFF, true);
     }
 
-    // Todo improve this try to use addFluidI
+    // Todo improve this try to use addInput then setFluidRender - but that seems to render fluid on top of the drawMethod
     private void drawFluid(GuiGraphics guiGraphics, FluidStack fluidInput, int fluidX, int fluidY, int fluidWidth, int fluidMaxHeight, double mouseX, double mouseY) {
         IClientFluidTypeExtensions props = IClientFluidTypeExtensions.of(fluidInput.getFluid().getFluidType());
         ResourceLocation FLUID_TEXTURE = props.getStillTexture().withPrefix("textures/").withSuffix(".png");
