@@ -1,5 +1,6 @@
 package dev.ftb.mods.ftbjeiextras.oritech;
 
+import dev.ftb.mods.ftbjeiextras.FTBJeiExtras;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -18,17 +19,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Nullable;
+import rearth.oritech.Oritech;
 import rearth.oritech.init.BlockContent;
 import rearth.oritech.init.recipes.OritechRecipe;
 
 public class OritechParticleCollisionRecipe implements IRecipeCategory<RecipeHolder<OritechRecipe>> {
 
-    private static final ResourceLocation PARTICLE = ResourceLocation.fromNamespaceAndPath("oritech", "textures/gui/modular/particle_recipe_overlay.png");
+    private static final ResourceLocation PARTICLE = Oritech.id("textures/gui/modular/particle_recipe_overlay.png");
 
     private final IGuiHelper guiHelper;
     private final IDrawable background;
     private final IDrawable icon;
     private final Component title;
+    private final IDrawable particle;
 
     private final RecipeType<RecipeHolder<OritechRecipe>> recipeType;
 
@@ -38,6 +41,10 @@ public class OritechParticleCollisionRecipe implements IRecipeCategory<RecipeHol
         this.background = guiHelper.createBlankDrawable(150, 66);
         this.recipeType = recipeType;
         this.title = Component.translatable("emi.category.oritech." + recipeType.getUid().getPath());
+        this.particle = guiHelper
+                .drawableBuilder(PARTICLE, 0, 0, 36, 24)
+                .setTextureSize(36, 24)
+                .build();
     }
 
     @Override
@@ -72,6 +79,7 @@ public class OritechParticleCollisionRecipe implements IRecipeCategory<RecipeHol
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 69, 20)
                 .addItemStack(recipe.getResults().get(0));
+
     }
 
     @Override
@@ -88,11 +96,7 @@ public class OritechParticleCollisionRecipe implements IRecipeCategory<RecipeHol
     @Override
     public void draw(RecipeHolder<OritechRecipe> recipeHolder, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
 
-        // Todo this is not working  https://github.com/Rearth/Oritech/blob/f8062dc79fb1e8a13126fd48f40989d6f89e66ef/common/src/main/java/rearth/oritech/init/compat/emi/OritechEMIParticleCollisionRecipe.java#L31
-
-//        guiGraphics.blitSprite(PARTICLE, 60, 17, 16, 16);
-        guiHelper.createDrawable(PARTICLE, 0, 0, 36, 24)
-                .draw(guiGraphics, 0, 0);
+        particle.draw(guiGraphics, 59, 17);
 
         guiHelper.getSlotDrawable()
                 .draw(guiGraphics, 41, 19);

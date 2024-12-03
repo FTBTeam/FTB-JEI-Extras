@@ -9,6 +9,8 @@ import mezz.jei.api.gui.placement.HorizontalAlignment;
 import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
+import mezz.jei.api.ingredients.IIngredientRenderer;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -20,12 +22,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import org.jetbrains.annotations.Nullable;
 import rearth.oritech.block.base.entity.MachineBlockEntity;
@@ -50,6 +54,7 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
     private final RecipeType<RecipeHolder<OritechRecipe>> recipeType;
     private final IDrawable icon;
     private final IDrawable background;
+    private final IJeiHelpers jeiHelpers;
     private final IGuiHelper guiHelper;
     private final Component title;
 
@@ -58,6 +63,7 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
 
 
     public OritechRecipeCategory(IJeiHelpers helpers, RecipeType<RecipeHolder<OritechRecipe>> recipeType, Class<? extends MachineBlockEntity> screenProviderSource, ItemLike machine) {
+        this.jeiHelpers = helpers;
         this.guiHelper = helpers.getGuiHelper();
         this.recipeType = recipeType;
         this.background = guiHelper.createBlankDrawable(150, 66);
@@ -126,6 +132,20 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
 
         }
 
+        FluidStack fluidInput = recipe.getFluidInput();
+        if (fluidInput != null && fluidInput.getAmount() > 0) {
+            builder.addSlot(RecipeIngredientRole.INPUT, 10, 6)
+                    .addFluidStack(fluidInput.getFluid(), fluidInput.getAmount())
+                    .setCustomRenderer(NeoForgeTypes.FLUID_STACK, new CustomFluidRender(fluidInput));
+        }
+
+        FluidStack fluidOutput = recipe.getFluidOutput();
+
+        if (fluidOutput != null && fluidOutput.getAmount() > 0) {
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 120, 6)
+                    .addFluidStack(fluidOutput.getFluid(), fluidOutput.getAmount())
+                    .setCustomRenderer(NeoForgeTypes.FLUID_STACK, new CustomFluidRender(fluidOutput));
+        }
     }
 
     @Override
@@ -165,10 +185,6 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
                     .draw(guiGraphics, pos.x() - offsetX - 1, pos.y() - offsetY - 1);
         }
 
-        FluidStack fluidInput = recipe.getFluidInput();
-        if (fluidInput != null && fluidInput.getAmount() > 0) {
-            drawFluid(guiGraphics, fluidInput, 10, 6, 16, 50, mouseX, mouseY);
-        }
 
         FluidStack fluidOutput = recipe.getFluidOutput();
 
@@ -187,7 +203,6 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
         }
     }
 
-    // Todo improve this try to use addInput then setFluidRender - but that seems to render fluid on top of the drawMethod
     private void drawFluid(GuiGraphics guiGraphics, FluidStack fluidInput, int fluidX, int fluidY, int fluidWidth, int fluidMaxHeight, double mouseX, double mouseY) {
         IClientFluidTypeExtensions props = IClientFluidTypeExtensions.of(fluidInput.getFluid().getFluidType());
         ResourceLocation FLUID_TEXTURE = props.getStillTexture().withPrefix("textures/").withSuffix(".png");
@@ -201,7 +216,7 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
         guiHelper.drawableBuilder(FLUID_TEXTURE, 0, 0, 16, 50)
                 .setTextureSize(16, 16)
                 .build()
-                .draw(guiGraphics, 10, 6);
+                .draw(guiGraphics, 0, 0);
 
         RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.disableBlend();
@@ -211,12 +226,36 @@ public class OritechRecipeCategory implements IRecipeCategory<RecipeHolder<Orite
                 .build()
                 .draw(guiGraphics, fluidX, fluidY);
 
-        if (mouseX >= fluidX && mouseX <= fluidX + fluidWidth && mouseY >= fluidY && mouseY <= fluidY + fluidMaxHeight) {
-            List<Component> textComponents = List.of(
+    }
+
+    private class CustomFluidRender implements IIngredientRenderer<net.neoforged.neoforge.fluids.FluidStack> {
+        private final FluidStack fluidInput;
+
+        public CustomFluidRender(FluidStack fluidInput) {
+            this.fluidInput = fluidInput;
+        }
+
+        @Override
+        public void render(GuiGraphics guiGraphics, net.neoforged.neoforge.fluids.FluidStack ingredient) {
+            drawFluid(guiGraphics, fluidInput, 0, 0, 16, 50, 0, 0);
+        }
+
+        @Override
+        public List<Component> getTooltip(net.neoforged.neoforge.fluids.FluidStack ingredient, TooltipFlag tooltipFlag) {
+            return List.of(
                     Component.literal("Fluid: ").append(Component.translatable(fluidInput.getFluid().getFluidType().getDescriptionId())),
                     Component.literal("Amount: " + fluidInput.getAmount())
             );
-            guiGraphics.renderTooltip(Minecraft.getInstance().font, textComponents, Optional.empty(), (int) mouseX, (int) mouseY);
+        }
+
+        @Override
+        public int getWidth() {
+            return 14;
+        }
+
+        @Override
+        public int getHeight() {
+            return 50;
         }
     }
 }
