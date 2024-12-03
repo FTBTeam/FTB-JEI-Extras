@@ -23,7 +23,7 @@ import rearth.oritech.init.recipes.OritechRecipe;
 
 public class OritechParticleCollisionRecipe implements IRecipeCategory<RecipeHolder<OritechRecipe>> {
 
-    private static final ResourceLocation PARTICLE =  ResourceLocation.fromNamespaceAndPath("oritech", "textures/gui/modular/particle_recipe_overlay.png");
+    private static final ResourceLocation PARTICLE = ResourceLocation.fromNamespaceAndPath("oritech", "textures/gui/modular/particle_recipe_overlay.png");
 
     private final IGuiHelper guiHelper;
     private final IDrawable background;
@@ -82,7 +82,7 @@ public class OritechParticleCollisionRecipe implements IRecipeCategory<RecipeHol
                 .setShadow(true)
                 .setTextAlignment(HorizontalAlignment.CENTER)
                 .setColor(0xFFFFFF)
-                .setPosition(0, getHeight() - Minecraft.getInstance().font.lineHeight);
+                .setPosition(0, getHeight() - Minecraft.getInstance().font.lineHeight * 2);
     }
 
     @Override
@@ -90,8 +90,9 @@ public class OritechParticleCollisionRecipe implements IRecipeCategory<RecipeHol
 
         // Todo this is not working  https://github.com/Rearth/Oritech/blob/f8062dc79fb1e8a13126fd48f40989d6f89e66ef/common/src/main/java/rearth/oritech/init/compat/emi/OritechEMIParticleCollisionRecipe.java#L31
 
+//        guiGraphics.blitSprite(PARTICLE, 60, 17, 16, 16);
         guiHelper.createDrawable(PARTICLE, 0, 0, 36, 24)
-                .draw(guiGraphics, 60, 17);
+                .draw(guiGraphics, 0, 0);
 
         guiHelper.getSlotDrawable()
                 .draw(guiGraphics, 41, 19);
