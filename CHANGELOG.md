@@ -4,4 +4,4 @@
 
 ## Removed
 
-- Advanced AE JEI Compact
+- Advanced AE JEI Compact due to AdvancedAE adding it self
