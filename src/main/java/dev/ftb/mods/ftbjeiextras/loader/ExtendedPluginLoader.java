@@ -1,7 +1,6 @@
 package dev.ftb.mods.ftbjeiextras.loader;
 
 import dev.ftb.mods.ftbjeiextras.FTBJeiExtras;
-import dev.ftb.mods.ftbjeiextras.advancedae.AdvancedAePlugin;
 import dev.ftb.mods.ftbjeiextras.extendedae.ExtendedAePlugin;
 import dev.ftb.mods.ftbjeiextras.oritech.OritechPlugin;
 import mezz.jei.api.IModPlugin;
@@ -24,7 +23,6 @@ import java.util.function.Consumer;
 public class ExtendedPluginLoader implements IModPlugin {
     final List<IConditionalModPlugin> containedPlugins = List.of(
             new ExtendedAePlugin(),
-            new AdvancedAePlugin(),
             new OritechPlugin()
     );
 

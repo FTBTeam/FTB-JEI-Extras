@@ -1,3 +1,7 @@
-## Fixed
+## Added
 
-- Minor issue with stack copying
+- Oritech JEI Compact
+
+## Removed
+
+- Advanced AE JEI Compact
