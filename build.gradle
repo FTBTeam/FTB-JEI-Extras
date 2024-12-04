@@ -92,9 +92,12 @@ dependencies {
     def oritechAtRuntime = true
 
     compileOnly("curse.maven:applied-energistics-2-223794:5662490")
+    compileOnly("curse.maven:glodium-957920:5614731")
     compileOnly("curse.maven:extendedae-892005:5680210")
 
     if (extendedAEAtRuntime) localRuntime("curse.maven:extendedae-892005:5680210")
+    if (extendedAEAtRuntime) runtimeOnly("curse.maven:glodium-957920:5614731")
+
 
     if (extendedAEAtRuntime) runtimeOnly("curse.maven:applied-energistics-2-223794:5662490")
     if (extendedAEAtRuntime || oritechAtRuntime) runtimeOnly("curse.maven:geckolib-388172:5874016")
