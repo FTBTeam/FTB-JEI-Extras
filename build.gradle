@@ -90,10 +90,13 @@ dependencies {
 
     def extendedAEAtRuntime = true
     def oritechAtRuntime = true
+    def geneticsAtRuntime = true
 
     compileOnly("curse.maven:applied-energistics-2-223794:5662490")
     compileOnly("curse.maven:glodium-957920:5614731")
     compileOnly("curse.maven:extendedae-892005:5680210")
+    compileOnly("curse.maven:genetics-resequenced-1040563:6039613")
+
 
     if (extendedAEAtRuntime) localRuntime("curse.maven:extendedae-892005:5680210")
     if (extendedAEAtRuntime) runtimeOnly("curse.maven:glodium-957920:5614731")
@@ -115,6 +118,12 @@ dependencies {
         runtimeOnly("curse.maven:owo-lib-532610:5945693")
         runtimeOnly("curse.maven:athena-841890:5629395")
         runtimeOnly("org.sinytra.forgified-fabric-api:forgified-fabric-api:0.104.0+2.0.19+1.21.1")
+    }
+
+    if (geneticsAtRuntime) {
+        runtimeOnly("curse.maven:genetics-resequenced-1040563:6039613")
+        runtimeOnly("curse.maven:kotlin-for-forge-351264:5978393")
+
     }
 
 
