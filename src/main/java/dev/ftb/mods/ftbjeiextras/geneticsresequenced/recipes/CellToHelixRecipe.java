@@ -34,12 +34,12 @@ public class CellToHelixRecipe implements ConversionRecipe{
     }
 
     @Override
-    public Ingredient getInput() {
+    public Ingredient input() {
         return Ingredient.of(input);
     }
 
     @Override
-    public ItemStack getOutput() {
+    public ItemStack output() {
         return output;
     }
 

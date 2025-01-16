@@ -30,12 +30,12 @@ public class PurifySyringeRecipe implements ConversionRecipe {
         return isMetal;
     }
     @Override
-    public Ingredient getInput() {
+    public Ingredient input() {
         return contaminatedSyringe;
     }
 
     @Override
-    public ItemStack getOutput() {
+    public ItemStack output() {
         return decontaminatedSyringe;
     }
 }

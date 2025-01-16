@@ -27,12 +27,12 @@ public class OrganicMatterRecipe implements ConversionRecipe {
     }
 
     @Override
-    public Ingredient getInput() {
+    public Ingredient input() {
         return matter;
     }
 
     @Override
-    public ItemStack getOutput() {
+    public ItemStack output() {
         return cell;
     }
 }

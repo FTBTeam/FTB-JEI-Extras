@@ -6,6 +6,11 @@ import dev.ftb.mods.ftbjeiextras.geneticsresequenced.category.BloodPurifierRecip
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.category.CellAnalyzerRecipeCategory;
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.category.DNADecryptRecipeCategory;
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.category.DNAExtractorRecipeCategory;
+import dev.ftb.mods.ftbjeiextras.geneticsresequenced.category.Incubator.BasicIncubatorRecipeCategory;
+import dev.ftb.mods.ftbjeiextras.geneticsresequenced.category.Incubator.BlackDeathRecipeCategory;
+import dev.ftb.mods.ftbjeiextras.geneticsresequenced.category.Incubator.CellDupeRecipeCategory;
+import dev.ftb.mods.ftbjeiextras.geneticsresequenced.category.Incubator.SetPotionEntityRecipeCategory;
+import dev.ftb.mods.ftbjeiextras.geneticsresequenced.category.Incubator.ViruisRecipeCategory;
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.category.PlasmidInfuserRecipeCategory;
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.category.PlasmidInjectorRecipeCategory;
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.CellToHelixRecipe;
@@ -14,7 +19,13 @@ import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.OrganicMatterRecipe
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.PlasmidInfuserRecipe;
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.PlasmidInjectorRecipe;
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.PurifySyringeRecipe;
+import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.incubator.BasicIncubatorRecipe;
+import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.incubator.BlackDeathRecipe;
+import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.incubator.CellDupeRecipe;
+import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.incubator.SetPotionEntityRecipe;
+import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.incubator.VirusRecipe;
 import dev.ftb.mods.ftbjeiextras.loader.IConditionalModPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -40,7 +51,12 @@ public class GeneticsResequencedPlugin implements IConditionalModPlugin {
                 new DNAExtractorRecipeCategory(registration.getJeiHelpers()),
                 new DNADecryptRecipeCategory(registration.getJeiHelpers()),
                 new PlasmidInfuserRecipeCategory(registration.getJeiHelpers()),
-                new PlasmidInjectorRecipeCategory(registration.getJeiHelpers(), ModBlocks.INSTANCE.getPLASMID_INJECTOR().toStack())
+                new PlasmidInjectorRecipeCategory(registration.getJeiHelpers()),
+                new BasicIncubatorRecipeCategory(registration.getJeiHelpers()),
+                new CellDupeRecipeCategory(registration.getJeiHelpers()),
+                new SetPotionEntityRecipeCategory(registration.getJeiHelpers()),
+                new ViruisRecipeCategory(registration.getJeiHelpers()),
+                new BlackDeathRecipeCategory(registration.getJeiHelpers())
         );
     }
 
@@ -54,6 +70,11 @@ public class GeneticsResequencedPlugin implements IConditionalModPlugin {
         registration.addRecipes(DNADecryptRecipeCategory.TYPE, DecryptHelixRecipe.collectAllRecipes(registries));
         registration.addRecipes(PlasmidInfuserRecipeCategory.TYPE, PlasmidInfuserRecipe.collectAllRecipes(registries));
         registration.addRecipes(PlasmidInjectorRecipeCategory.TYPE, PlasmidInjectorRecipe.collectAllRecipes(registries));
+        registration.addRecipes(BasicIncubatorRecipeCategory.TYPE, BasicIncubatorRecipe.collectAllRecipes(recipeManager));
+        registration.addRecipes(CellDupeRecipeCategory.TYPE, CellDupeRecipe.collectAllRecipes(recipeManager, registries));
+        registration.addRecipes(SetPotionEntityRecipeCategory.TYPE, SetPotionEntityRecipe.collectAllRecipes(recipeManager));
+        registration.addRecipes(ViruisRecipeCategory.TYPE, VirusRecipe.collectAllRecipes(recipeManager, registries));
+        registration.addRecipes(BlackDeathRecipeCategory.TYPE, BlackDeathRecipe.collectAllRecipes(registries));
 
     }
 
@@ -65,5 +86,18 @@ public class GeneticsResequencedPlugin implements IConditionalModPlugin {
         registration.addRecipeCatalyst(ModBlocks.INSTANCE.getDNA_DECRYPTOR(), DNADecryptRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ModBlocks.INSTANCE.getPLASMID_INFUSER(), PlasmidInfuserRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ModBlocks.INSTANCE.getPLASMID_INJECTOR(), PlasmidInjectorRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ModBlocks.INSTANCE.getINCUBATOR(), RecipeTypes.BREWING);
+        registration.addRecipeCatalyst(ModBlocks.INSTANCE.getADVANCED_INCUBATOR(), RecipeTypes.BREWING);
+        registration.addRecipeCatalyst(ModBlocks.INSTANCE.getINCUBATOR(), BasicIncubatorRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ModBlocks.INSTANCE.getINCUBATOR(), CellDupeRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ModBlocks.INSTANCE.getINCUBATOR(), SetPotionEntityRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ModBlocks.INSTANCE.getINCUBATOR(), ViruisRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ModBlocks.INSTANCE.getINCUBATOR(), BlackDeathRecipeCategory.TYPE);
+
+        registration.addRecipeCatalyst(ModBlocks.INSTANCE.getADVANCED_INCUBATOR(), BasicIncubatorRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ModBlocks.INSTANCE.getADVANCED_INCUBATOR(), CellDupeRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ModBlocks.INSTANCE.getADVANCED_INCUBATOR(), SetPotionEntityRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ModBlocks.INSTANCE.getADVANCED_INCUBATOR(), ViruisRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ModBlocks.INSTANCE.getADVANCED_INCUBATOR(), BlackDeathRecipeCategory.TYPE);
     }
 }

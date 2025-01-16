@@ -1,5 +1,6 @@
 package dev.ftb.mods.ftbjeiextras.geneticsresequenced.category;
 
+import dev.aaronhowser.mods.geneticsresequenced.registry.ModBlocks;
 import dev.ftb.mods.ftbjeiextras.FTBJeiExtras;
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.ConversionRecipe;
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.PlasmidInfuserRecipe;
@@ -28,9 +29,9 @@ public class PlasmidInjectorRecipeCategory implements IRecipeCategory<PlasmidInj
     private final IGuiHelper guiHelper;
     private final IDrawable background;
 
-    public PlasmidInjectorRecipeCategory(IJeiHelpers helpers, ItemStack icon) {
+    public PlasmidInjectorRecipeCategory(IJeiHelpers helpers) {
         this.guiHelper = helpers.getGuiHelper();
-        this.background = guiHelper.createDrawableItemStack(icon);
+        this.background = guiHelper.createDrawableItemStack(ModBlocks.INSTANCE.getPLASMID_INJECTOR().toStack());
     }
 
     @Override

@@ -5,7 +5,6 @@ import dev.aaronhowser.mods.geneticsresequenced.gene.Gene;
 import dev.aaronhowser.mods.geneticsresequenced.item.DnaHelixItem;
 import dev.aaronhowser.mods.geneticsresequenced.item.EntityDnaItem;
 import dev.aaronhowser.mods.geneticsresequenced.registry.ModItems;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.entity.EntityType;
@@ -34,12 +33,12 @@ public class DecryptHelixRecipe implements ConversionRecipe {
     }
 
     @Override
-    public Ingredient getInput() {
+    public Ingredient input() {
         return input;
     }
 
     @Override
-    public ItemStack getOutput() {
+    public ItemStack output() {
         return output;
     }
 
