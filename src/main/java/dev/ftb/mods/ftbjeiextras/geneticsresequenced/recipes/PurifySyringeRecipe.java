@@ -12,12 +12,10 @@ import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 
 public class PurifySyringeRecipe implements ConversionRecipe {
 
-    private final boolean isMetal;
     private final Ingredient contaminatedSyringe;
     private final ItemStack decontaminatedSyringe;
 
     public PurifySyringeRecipe(boolean isMetal) {
-        this.isMetal = isMetal;
         ItemStack stack = isMetal ? ModItems.INSTANCE.getMETAL_SYRINGE().toStack() : ModItems.INSTANCE.getSYRINGE().toStack();
         Player player = Minecraft.getInstance().player;
         LivingEntity entity = isMetal ? EntityType.COW.create(player.level()) : player;
@@ -26,9 +24,6 @@ public class PurifySyringeRecipe implements ConversionRecipe {
         this.decontaminatedSyringe = stack;
     }
 
-    public boolean isMetal() {
-        return isMetal;
-    }
     @Override
     public Ingredient input() {
         return contaminatedSyringe;

@@ -5,17 +5,10 @@ import dev.aaronhowser.mods.geneticsresequenced.item.PlasmidItem;
 import dev.aaronhowser.mods.geneticsresequenced.item.SyringeItem;
 import dev.aaronhowser.mods.geneticsresequenced.registry.ModGenes;
 import dev.aaronhowser.mods.geneticsresequenced.registry.ModItems;
-import dev.aaronhowser.mods.geneticsresequenced.util.ClientUtil;
 import dev.ftb.mods.ftbjeiextras.modspecific.GeneticsHelpers;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.Cow;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 

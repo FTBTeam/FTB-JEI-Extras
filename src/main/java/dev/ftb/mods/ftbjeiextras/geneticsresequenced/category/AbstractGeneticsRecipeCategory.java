@@ -21,7 +21,7 @@ public abstract class AbstractGeneticsRecipeCategory<T> implements IRecipeCatego
     public AbstractGeneticsRecipeCategory(IJeiHelpers helpers, ItemLike itemLike, String key, RecipeType<T> recipeType) {
         this.guiHelper = helpers.getGuiHelper();
         this.background = guiHelper.createDrawableItemStack(new ItemStack(itemLike));
-        this.title = GeneticsHelpers.categoryName(key); //recipeType.getUid().getPath().replace("ga_", "")
+        this.title = GeneticsHelpers.categoryName(key);
         this.recipeType = recipeType;
     }
 

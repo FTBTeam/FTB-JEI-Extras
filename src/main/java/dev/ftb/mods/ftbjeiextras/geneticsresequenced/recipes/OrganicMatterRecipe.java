@@ -8,13 +8,10 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 
 public class OrganicMatterRecipe implements ConversionRecipe {
-    private final EntityType<?> entityType;
     private final Ingredient matter;
     private final ItemStack cell;
 
     public OrganicMatterRecipe(EntityType<?> entityType) {
-        this.entityType = entityType;
-
         ItemStack matter = ModItems.INSTANCE.getORGANIC_MATTER().toStack();
         EntityDnaItem.Companion.setEntityType(matter, entityType);
 

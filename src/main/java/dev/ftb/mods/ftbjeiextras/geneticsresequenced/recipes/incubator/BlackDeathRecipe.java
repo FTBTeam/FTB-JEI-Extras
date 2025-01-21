@@ -51,7 +51,6 @@ public class BlackDeathRecipe implements IncubatorRecipe{
         return output;
     }
 
-
     public static List<BlackDeathRecipe> collectAllRecipes(RegistryAccess registryAccess) {
         return List.of(new BlackDeathRecipe(true, registryAccess), new BlackDeathRecipe(false, registryAccess));
     }

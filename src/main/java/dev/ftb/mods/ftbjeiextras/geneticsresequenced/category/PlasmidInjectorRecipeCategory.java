@@ -21,37 +21,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-public class PlasmidInjectorRecipeCategory implements IRecipeCategory<PlasmidInjectorRecipe> {
+public class PlasmidInjectorRecipeCategory extends AbstractGeneticsRecipeCategory<PlasmidInjectorRecipe> {
 
     public static final RecipeType<PlasmidInjectorRecipe> TYPE = GeneticsHelpers.createRecipeType("plasmid_injector", PlasmidInjectorRecipe.class);
 
-
-    private final IGuiHelper guiHelper;
-    private final IDrawable background;
-
     public PlasmidInjectorRecipeCategory(IJeiHelpers helpers) {
-        this.guiHelper = helpers.getGuiHelper();
-        this.background = guiHelper.createDrawableItemStack(ModBlocks.INSTANCE.getPLASMID_INJECTOR().toStack());
-    }
-
-    @Override
-    public @Nullable IDrawable getIcon() {
-        return background;
+        super(helpers, ModBlocks.INSTANCE.getPLASMID_INJECTOR(), "plasmid_injector", TYPE);
     }
 
     @Override
     public int getHeight() {
         return 18;
-    }
-
-    @Override
-    public RecipeType<PlasmidInjectorRecipe> getRecipeType() {
-        return TYPE;
-    }
-
-    @Override
-    public Component getTitle() {
-        return Component.literal("fart");
     }
 
     @Override

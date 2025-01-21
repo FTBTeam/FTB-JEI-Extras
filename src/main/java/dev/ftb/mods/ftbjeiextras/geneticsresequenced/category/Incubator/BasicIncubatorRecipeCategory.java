@@ -1,6 +1,5 @@
 package dev.ftb.mods.ftbjeiextras.geneticsresequenced.category.Incubator;
 
-import dev.aaronhowser.mods.geneticsresequenced.registry.ModBlocks;
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.incubator.BasicIncubatorRecipe;
 import dev.ftb.mods.ftbjeiextras.modspecific.GeneticsHelpers;
 import mezz.jei.api.helpers.IJeiHelpers;

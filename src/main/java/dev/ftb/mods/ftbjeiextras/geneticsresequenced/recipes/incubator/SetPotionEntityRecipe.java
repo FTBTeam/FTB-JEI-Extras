@@ -2,12 +2,10 @@ package dev.ftb.mods.ftbjeiextras.geneticsresequenced.recipes.incubator;
 
 import dev.aaronhowser.mods.geneticsresequenced.item.EntityDnaItem;
 import dev.aaronhowser.mods.geneticsresequenced.recipe.BrewingRecipes;
-import dev.aaronhowser.mods.geneticsresequenced.recipe.incubator.VirusRecipe;
 import dev.aaronhowser.mods.geneticsresequenced.registry.ModItems;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 
 import java.util.ArrayList;
