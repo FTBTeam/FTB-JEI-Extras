@@ -89,7 +89,6 @@ dependencies {
     localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
     def extendedAEAtRuntime = true
-    def oritechAtRuntime = true
     def geneticsAtRuntime = true
 
     compileOnly("curse.maven:applied-energistics-2-223794:5662490")
@@ -97,36 +96,22 @@ dependencies {
     compileOnly("curse.maven:extendedae-892005:5680210")
     compileOnly("curse.maven:genetics-resequenced-1040563:6039613")
 
-
     if (extendedAEAtRuntime) localRuntime("curse.maven:extendedae-892005:5680210")
     if (extendedAEAtRuntime) runtimeOnly("curse.maven:glodium-957920:5614731")
 
-
     if (extendedAEAtRuntime) runtimeOnly("curse.maven:applied-energistics-2-223794:5662490")
-    if (extendedAEAtRuntime || oritechAtRuntime) runtimeOnly("curse.maven:geckolib-388172:5874016")
+    if (extendedAEAtRuntime) runtimeOnly("curse.maven:geckolib-388172:5874016")
 
-    compileOnly("curse.maven:oritech-1030830:5952879")
     // All these are required for depending on oritech
     compileOnly("curse.maven:architectury-api-419699:5786327")
     compileOnly("org.sinytra.forgified-fabric-api:forgified-fabric-api:0.104.0+2.0.19+1.21.1")
     compileOnly("curse.maven:geckolib-388172:5874016")
     compileOnly("curse.maven:owo-lib-532610:5945693")
 
-    if (oritechAtRuntime) {
-        localRuntime("curse.maven:oritech-1030830:5952879")
-        runtimeOnly("curse.maven:architectury-api-419699:5786327")
-        runtimeOnly("curse.maven:owo-lib-532610:5945693")
-        runtimeOnly("curse.maven:athena-841890:5629395")
-        runtimeOnly("org.sinytra.forgified-fabric-api:forgified-fabric-api:0.104.0+2.0.19+1.21.1")
-    }
-
     if (geneticsAtRuntime) {
         runtimeOnly("curse.maven:genetics-resequenced-1040563:6039613")
         runtimeOnly("curse.maven:kotlin-for-forge-351264:5978393")
-
     }
-
-
 }
 
 repositories {
@@ -177,16 +162,6 @@ publishing {
                 credentials {
                     username = "ftb"
                     password = providers.environmentVariable("FTB_MAVEN_TOKEN").getOrElse("")
-                }
-            }
-        }
-
-        if (providers.environmentVariable("SAPS_TOKEN").isPresent()) {
-            maven {
-                url ftbPublishing.sapsURL
-                credentials {
-                    username = "ftb"
-                    password = providers.environmentVariable("SAPS_TOKEN").getOrElse("")
                 }
             }
         }
