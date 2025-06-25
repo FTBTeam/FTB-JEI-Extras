@@ -7,7 +7,7 @@ JEI Extras is a small mod designed to bridge the gap between other mods and JEI 
 These features are correct as of `1.21.1`, these features may change as mods change, add or remove their support for JEI.
 
 - [`ExtendedAE`](https://www.curseforge.com/minecraft/mc-mods/ex-pattern-provider) - Adds JEI support for ExtendedAE, ExtendedAE currently only supports `EMI` and `REI`
-- [`AdvancedAE`](https://www.curseforge.com/minecraft/mc-mods/advancedae) - Adds JEI support for AdvancedAE, AdvancedAE currently only supports `EMI` and `REI`
+- [`Genetics Resequenced`](https://www.curseforge.com/minecraft/mc-mods/genetics-resequenced) - Adds JEI support for Genetics Resequenced, Genetics Resequenced currently only supports `EMI`
 
 The mod will work workout any of these supported mods being installed as each plugin is registered conditionally
 

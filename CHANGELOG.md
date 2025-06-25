@@ -1,4 +1,4 @@
-## Added
+## Removed
 
-- Genetics Resequenced JEI Compact
+- Oritech support as this is now native
 

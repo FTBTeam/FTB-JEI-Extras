@@ -3,7 +3,6 @@ package dev.ftb.mods.ftbjeiextras.loader;
 import dev.ftb.mods.ftbjeiextras.FTBJeiExtras;
 import dev.ftb.mods.ftbjeiextras.extendedae.ExtendedAePlugin;
 import dev.ftb.mods.ftbjeiextras.geneticsresequenced.GeneticsResequencedPlugin;
-import dev.ftb.mods.ftbjeiextras.oritech.OritechPlugin;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IPlatformFluidHelper;
@@ -24,7 +23,6 @@ import java.util.function.Consumer;
 public class ExtendedPluginLoader implements IModPlugin {
     final List<IConditionalModPlugin> containedPlugins = List.of(
             new ExtendedAePlugin(),
-            new OritechPlugin(),
             new GeneticsResequencedPlugin()
     );
 
